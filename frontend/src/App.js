@@ -7,13 +7,17 @@ function App() {
 
   const [file1, setFile] = useState()
   const [files, setFiles] = useState([])
+  const [butt, setButt] = useState(false)
   const [v, setV] = useState(false)
   const selected = (e) => {
-    setFile(e.target.files[0])
+    if (e.target.files){
+      setFile(e.target.files[0])
+      setButt(true)
+    }
   }
 
   const upload = async (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     await uploadfile(file1)
   }
 
@@ -36,11 +40,15 @@ function App() {
 
   return (
     <div className="App">
-      <h1>File Upload</h1>
+      <h1>Upload File</h1>
       <form onSubmit={upload} >
         <input type='file' onChange={selected}></input><br/><br/>
-        <button >Submit</button>
+        {
+        butt? (<button >Upload<br/></button>)
+        : (<button disabled >Upload<br/></button>)
+      }
       </form>
+      <h1>View Files</h1>
       <button onClick={view} >VIEW</button><br/>
       {
         v? files.map(file => <a href={file.fileURL} target='_blank' style={{textDecoration:"none"}}>{file.filename}<br/></a>) : (<div>Click to view.</div>)
