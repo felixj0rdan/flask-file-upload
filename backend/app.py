@@ -4,7 +4,7 @@ from flask_jwt_extended import JWTManager
 from db import db
 from flask_cors import CORS
 
-from resources.upload import UploadFile, getFile
+from resources.upload import UploadFile, getFile, getFileList, files
 
 app = Flask(__name__)
 CORS(app)
@@ -20,7 +20,9 @@ def create_tables():
     db.create_all()
 
 api.add_resource(UploadFile, '/upload')
-api.add_resource(getFile, '/get/<path:path>')
+api.add_resource(getFile, '/<string:path>')
+api.add_resource(getFileList, '/getfiles')
+api.add_resource(files, '/files/<int:id>')
 
 db.init_app(app)
 

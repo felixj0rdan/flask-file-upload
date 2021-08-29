@@ -12,4 +12,13 @@ export const uploadfile = (file1) => {
     })
     .then(data => console.log(data))
 }
-// to push new
+
+export const listfiles = () => {
+    return fetch('http://127.0.0.1:5000/getfiles', {
+        method: "GET",
+    })
+    .then(res => {
+        return res.json()
+    })
+    .catch( err => console.log(err))
+}

@@ -56,3 +56,27 @@ class getFile(Resource):
             return send_from_directory(UPLOAD_FOLDER, path=path, as_attachment=True)
         except FileNotFoundError:
             return {'message':'File not Found'},404
+
+class getFileList(Resource):
+    def get(self):
+        try:
+            return{'Files': [file.json() for file in fileModel.find_all()]}
+        except:
+            return {'message':'Error'},500
+
+class files(Resource):
+    def get(self, id):
+        file = fileModel.find_by_id(id)
+
+        if file:
+            return file.json()
+        return {'message': 'File not found!!'}, 404
+
+    def delete(self, id):
+        file = fileModel.find_by_id(id)
+
+        if file:
+            file.delete_from_db()
+            return {'message':'File deleted'}, 200
+
+        return {'message': 'File not found!'},404
